@@ -42,10 +42,10 @@ class System(commands.Cog, name='System commands'):
         """
         : loads a category of commands
         """
-        print(f'loading {cog}...')
+        log.info(f'loading {cog}...')
         self.client.load_extension(f'commands.{cog}')
         await ctx.send(f'`successfully loaded {cog}`')
-        print('success!')
+        log.info('success!')
 
     @commands.command()
     @commands.is_owner()
@@ -53,10 +53,10 @@ class System(commands.Cog, name='System commands'):
         """
         : unloads a category of commands
         """
-        print(f'unloading {cog}...')
+        log.info(f'unloading {cog}...')
         self.client.unload_extension(f'commands.{cog}')
         await ctx.send(f'`successfully unloaded {cog}`')
-        print('success!')
+        log.info('success!')
 
     @commands.command()
     @commands.is_owner()
@@ -64,11 +64,11 @@ class System(commands.Cog, name='System commands'):
         """
         : reloads a category of commands
         """
-        print(f'reloading {cog}...')
+        log.info(f'reloading {cog}...')
         self.client.unload_extension(f'commands.{cog}')
         self.client.load_extension(f'commands.{cog}')
         await ctx.send(f'`successfully reloaded {cog}`')
-        print('success!')
+        log.info('success!')
 
     # Loading and unloading of cogs Error handling
     @load.error
@@ -80,7 +80,7 @@ class System(commands.Cog, name='System commands'):
         # error if user is not bot owner/insufficient perms
         if isinstance(error, commands.errors.NotOwner):
             await ctx.send('`ERROR: insufficient perms to run this command`')
-        print('failure!')
+        log.info('failure!')
 
     @unload.error
     async def unload_error(self, ctx: object, error: object):
@@ -91,7 +91,7 @@ class System(commands.Cog, name='System commands'):
         # error if user is not bot owner/insufficient perms
         if isinstance(error, commands.errors.NotOwner):
             await ctx.send('`ERROR: insufficient perms to run this command`')
-        print('failure!')
+        log.info('failure!')
 
     @reload.error
     async def reload_error(self, ctx: object, error: object):
@@ -102,7 +102,7 @@ class System(commands.Cog, name='System commands'):
         # error if user is not bot owner/insufficient perms
         if isinstance(error, commands.errors.NotOwner):
             await ctx.send('`ERROR: insufficient perms to run this command`')
-        print('failure!')
+        log.info('failure!')
 
 
 def setup(client):

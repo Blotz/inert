@@ -95,12 +95,14 @@ class Role(commands.Cog, name='role'):
 
             # adds roles
             try:
+                log.debug('Adding roles to user')
                 await member.add_roles(*db_roles, reason="Automatically added roles")
+                log.debug('Deleting roles from database...')
+                self.sql.remove_user_roles(user_id, guild)
+                await message.edit(content=f"`updated {member.name}'s roles!`")
             except DiscordException as e:
-                log.info(e)
-
-            self.sql.remove_user_roles(user_id, guild)
-            await message.edit(content=f"`updated {member.name}'s roles!`")
+                log.debug(e)
+                await message.edit(content='`ERROR: please review logs`')
 
     @staticmethod
     @addroles.error

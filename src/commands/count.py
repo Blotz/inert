@@ -8,6 +8,7 @@ from settings import (REDDIT_SECRET, REDDIT_ID)
 from sql.count import SqlClass
 log = logging.getLogger(__name__)
 
+
 class Count(commands.Cog, name='counting'):
     """
     Counts different subreddits
@@ -86,8 +87,10 @@ class Count(commands.Cog, name='counting'):
 
         msg = await ctx.send('Counting...')
 
+        log.debug('Getting hot posts')
         fn = partial(self.get_hotposts, sub[0])
         posts = await self.client.loop.run_in_executor(None, fn)
+        log.debug('Gotten hotposts. counting')
 
         # Include only the author names.
         # only green has proper css class names. as green will be using the command the most on their sub, it will be used to verify color

@@ -25,6 +25,10 @@ RUN apk add --no-cache make \
   gcc \
   g++ \
   python3-dev \
+  libjpeg \
+  openjpeg \
+  tiff \
+  libxcb \
   musl-dev \
   unixodbc-dev \
   # Pillow dependencies
@@ -39,7 +43,7 @@ RUN apk add --no-cache make \
   tk-dev \
   zlib-dev \
 && pip3 install --no-cache-dir -r requirements.txt \
-&& apk del python3-dev musl-dev freetype-dev fribidi-dev harfbuzz-dev jpeg-dev lcms2-dev openjpeg-dev tcl-dev tiff-dev tk-dev zlib-dev
+&& apk del musl-dev freetype-dev fribidi-dev harfbuzz-dev jpeg-dev lcms2-dev openjpeg-dev tcl-dev tiff-dev tk-dev zlib-dev
 
 ### . Copy code
 COPY src/ .

@@ -1,7 +1,7 @@
 from discord.ext import commands
 from discord import Intents
 import os
-import sys
+
 try:
     from dotenv import load_dotenv
     load_dotenv()

@@ -1,4 +1,5 @@
 import os
+
 externalDB = os.getenv("DATABASE_TYPE")
 if externalDB is not None:
     try:

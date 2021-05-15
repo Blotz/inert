@@ -12,15 +12,15 @@ class SqlClass(SqlBaseCommands):
                     ON DELETE CASCADE ON UPDATE CASCADE,
                 primary key (guild_id, command_name)
             );""",
-            """
-            CREATE TABLE IF NOT EXISTS customcommand_reponses (
-                guild_id integer,
-                command_name text,
-                response text,
-                foreign key (guild_id, command_name) references customcommands (guild_id, command_name)
-                    ON DELETE CASCADE ON UPDATE CASCADE,
-                primary key (guild_id, command_name, response)
-            );"""])
+                          """
+                          CREATE TABLE IF NOT EXISTS customcommand_reponses (
+                              guild_id integer,
+                              command_name text,
+                              response text,
+                              foreign key (guild_id, command_name) references customcommands (guild_id, command_name)
+                                  ON DELETE CASCADE ON UPDATE CASCADE,
+                              primary key (guild_id, command_name, response)
+                          );"""])
 
     ############################################################
 
@@ -47,4 +47,3 @@ class SqlClass(SqlBaseCommands):
         """
         sql = """SELECT description FROM customcommands WHERE guild_id=? AND command_name=?"""
         return self.execute(sql, (guild_id, command_name))
-

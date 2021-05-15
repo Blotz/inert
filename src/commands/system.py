@@ -1,5 +1,7 @@
 from time import time
+
 from discord.ext import commands
+
 from sql.prefix import SqlClass
 
 
@@ -7,6 +9,7 @@ class System(commands.Cog, name='System commands'):
     """
     system commands
     """
+
     def __init__(self, client: object):
         self.client = client
         self.sql = SqlClass()
@@ -67,14 +70,6 @@ class System(commands.Cog, name='System commands'):
         await ctx.send(f'`successfully reloaded {cog}`')
         print('success!')
 
-    @commands.command(name='status')
-    @commands.is_owner()
-    async def status(self, ctx, game):
-        game = discord.Game(game)
-        await self.bot.change_presence(status=discord.Status.online, activity=game)
-        embedMsg = discord.Embed(color=0xFCF4A3, title=":sunny::sunflower: Status Changed :sunflower::sunny:")
-        await ctx.send(embed=embedMsg)
-
     # Loading and unloading of cogs Error handling
     @load.error
     async def load_error(self, ctx: object, error: object):
@@ -103,17 +98,6 @@ class System(commands.Cog, name='System commands'):
         # error if cog doesnt exist
         if isinstance(error, commands.CommandInvokeError):
             await ctx.send('`ERROR: cog has not been reloaded`')
-
-        # error if user is not bot owner/insufficient perms
-        if isinstance(error, commands.errors.NotOwner):
-            await ctx.send('`ERROR: insufficient perms to run this command`')
-        print('failure!')
-
-    @status.error
-    async def status_error(self, ctx: object, error: object):
-        # error if cog doesnt exist
-        if isinstance(error, commands.CommandInvokeError):
-            await ctx.send('`ERROR: cog has not been loaded`')
 
         # error if user is not bot owner/insufficient perms
         if isinstance(error, commands.errors.NotOwner):

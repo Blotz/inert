@@ -1,14 +1,16 @@
-from discord.ext import commands
-from PIL import Image, ImageColor
-from functools import partial
-import discord
-import aiohttp
-import re
 import io
+import logging
+log = logging.getLogger(__name__)
 import random
+import re
+from functools import partial
 from os import listdir
 
-import cppimport.import_hook
+import aiohttp
+import discord
+from PIL import Image, ImageColor
+from discord.ext import commands
+
 from colorapp import colorapp
 
 
@@ -16,6 +18,7 @@ class ImageEditing(commands.Cog, name='image'):
     """
     Image editing
     """
+
     def __init__(self, client):
         self.client = client
 
@@ -140,7 +143,6 @@ class ImageEditing(commands.Cog, name='image'):
         await ctx.send(f'`{color}@{int(strength * 100)}%`', file=f)
         await bot_msg.delete()
 
-
     @recolor.error
     async def _recolor(self, ctx: object, error: object):
         """
@@ -196,13 +198,11 @@ class ImageEditing(commands.Cog, name='image'):
 
         bot_msg = await ctx.send('`Editing images`')
 
-        img,width,height = await self.FindImage(ctx)
+        img, width, height = await self.FindImage(ctx)
         if img is None:
             return await bot_msg.edit(content='`No image found`')
 
         await bot_msg.edit(content='`Image found!`')
-
-
 
         async with ctx.typing():  # typing to show code is working
             # runs in parallel to other code to prevent input output blocking
@@ -251,7 +251,7 @@ class ImageEditing(commands.Cog, name='image'):
         if isinstance(error, commands.errors.MemberNotFound):
             await ctx.send('`ERROR: member not found`')
         else:
-            print(error)
+            log.info(error)
 
 
 def setup(client):

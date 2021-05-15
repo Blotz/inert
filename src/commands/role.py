@@ -1,7 +1,11 @@
+import logging
+log = logging.getLogger(__name__)
+
+import discord
 from discord.errors import DiscordException
 from discord.ext import commands
 from discord.utils import get
-import discord
+
 from sql.role import SqlClass
 
 
@@ -9,6 +13,7 @@ class Role(commands.Cog, name='role'):
     """
     Persistent roles
     """
+
     def __init__(self, client):
         self.client = client
         self.sql = SqlClass()
@@ -42,7 +47,7 @@ class Role(commands.Cog, name='role'):
 
         self.sql.remove_roles(guild_id, lst)
 
-    @commands.command(aliases=['clearroles','purgeroles'])
+    @commands.command(aliases=['clearroles', 'purgeroles'])
     @commands.has_permissions(administrator=True)
     async def removeroles(self, ctx, member: discord.Member = None):
         """Removes a users roles
@@ -93,7 +98,7 @@ class Role(commands.Cog, name='role'):
             try:
                 await member.add_roles(*db_roles, reason="Automatically added roles")
             except DiscordException as e:
-                print(e)
+                log.info(e)
 
             self.sql.remove_user_roles(user_id, guild)
             await message.edit(content=f"`updated {member.name}'s roles!`")
@@ -106,7 +111,7 @@ class Role(commands.Cog, name='role'):
         elif isinstance(error, commands.errors.MissingPermissions):
             await ctx.send('`MISSING PERMS: you need to be an administrator to run this command`')
         else:
-            print(error)
+            log.info(error)
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):

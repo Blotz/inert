@@ -1,16 +1,19 @@
-from discord.ext import commands
-from sql.count import SqlClass
-from praw import Reddit
 import os
 from functools import partial
-import requests
+
 import discord
+import requests
+from discord.ext import commands
+from praw import Reddit
+
+from sql.count import SqlClass
 
 
 class Count(commands.Cog, name='counting'):
     """
     Counts different subreddits
     """
+
     def __init__(self, client):
         self.client = client
         self.reddit = Reddit(
@@ -164,8 +167,7 @@ class Count(commands.Cog, name='counting'):
 
     @count.error
     async def _count(self, error, ctx):
-        if isinstance(error, commands.errors.MissingRequiredArgument) or isinstance(error,
-                                                                                    discord.errors.DiscordException):
+        if isinstance(error, commands.errors.MissingRequiredArgument) or isinstance(error, discord.errors.DiscordException):
             await ctx.send('`ERROR Missing Required Argument: .count yellow`')
         else:
             await ctx.send(f'`ERROR: {type(error), error}`')

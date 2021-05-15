@@ -1,18 +1,23 @@
-from discord.ext import commands
-from discord import Intents
+import logging
 import os
-
+from discord import Intents
+from discord.ext import commands
 try:
     from dotenv import load_dotenv
+
     load_dotenv()
 except ImportError:
-    print("python-dotenv not loaded")
+    logging.debug("python-dotenv not loaded")
 
 from sql.prefix import SqlClass
 
 # prefix
 sql = SqlClass()
+
+
 def get_prefix(client, message): return sql.get_prefix(message.guild.id)[0][0]
+
+
 # add discord bot perms
 intents = Intents.default()
 # create the client
@@ -46,7 +51,9 @@ async def on_ready():
             lst.append(db_guild)
 
     sql.remove_guilds(lst)
-    print("bot ready")
+    log = logging.getLogger(__name__)
+    log.debug("bot ready")
+    print("fork me")
 
 
 @client.event

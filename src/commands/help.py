@@ -31,7 +31,7 @@ class Help(commands.Cog, name='Help'):
             help_str += "\n\nrun .help command <command> or .help group <group> to get more info```"
             await ctx.send(help_str)
 
-    @help.command(name="command",  aliases=['cmd'])
+    @help.command(name="command", aliases=['cmd'])
     async def help_command(self, ctx, *, cmd):
         """
         returns info on specific commands
@@ -54,7 +54,7 @@ class Help(commands.Cog, name='Help'):
         else:
             await ctx.send("```no command found```")
 
-    @help.command(name="category",  aliases=['cat', 'group'])
+    @help.command(name="category", aliases=['cat', 'group'])
     async def help_group(self, ctx, *, group):
         """
         returns info on a specific group

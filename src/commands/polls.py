@@ -1,8 +1,14 @@
-import discord, re, datetime
-from discord.ext import commands
-from sql.polls import SqlClass
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
+import logging
+log = logging.getLogger(__name__)
 from asyncio import sleep
+
+import datetime
+import discord
+import re
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from discord.ext import commands
+
+from sql.polls import SqlClass
 
 
 class Polls(commands.Cog, name='polls'):
@@ -225,7 +231,7 @@ class Polls(commands.Cog, name='polls'):
                                                                                     discord.errors.DiscordException):
             await ctx.send('`ERROR Missing Required Argument: make sure it is .anonpoll <time 1d2h3m4s> {title} [args]`')
         else:
-            print(error)
+            log.info(error)
 
     @commands.command(aliases=['checkvote'])
     async def checkvotes(self, ctx) -> None:
@@ -303,7 +309,7 @@ class Polls(commands.Cog, name='polls'):
             await ctx.send(
                 '`ERROR Missing Required Argument: make sure it is .endpoll <message id> <send to dms True/False>`')
         else:
-            print(error)
+            log.info(error)
 
     @commands.command()
     async def poll(self, ctx, *, args: str = ' ') -> None:

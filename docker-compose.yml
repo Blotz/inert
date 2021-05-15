@@ -1,15 +1,15 @@
 version: '3.7'
 
 services:
-  inert:
-    container_name: inert
-    image: inert:latest
-    volumes:
-      - "inert:/code/data"
-    environment:
-      - TOKEN=$TOKEN
-      - REDDITID=$REDDITID
-      - REDDITSECRET=$REDDITSECRET
+    inert:
+        container_name: inert
+        image: inert:latest
+        volumes:
+            - "inert:/code/data"
+        environment:
+            - TOKEN=$TOKEN
+            - REDDITID=$REDDITID
+            - REDDITSECRET=$REDDITSECRET
 
 volumes:
     inert:

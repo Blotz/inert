@@ -1,11 +1,14 @@
+import random
+
 import discord
 from discord.ext import commands
-import random
+
 
 class Fun(commands.Cog, name='Fun'):
     """
     Full of lots of fun commands
     """
+
     def __init__(self, client):
         self.client = client
         self.CHARACTER_VALUES = CHARACTER_VALUES = {
@@ -99,7 +102,6 @@ class Fun(commands.Cog, name='Fun'):
 
         await ctx.send(out.decode())
 
-
     @commands.command()
     async def uwu(self, ctx, *, message):
         """
@@ -115,6 +117,7 @@ class Fun(commands.Cog, name='Fun'):
         res = res.replace("\n", " " + random.choice(uwus) + "\n")
         # and send one "as" da usew who invoked da command ÚwÚ
         await ctx.send(f"{res + ' ' + random.choice(uwus)}")
+
 
 def setup(client):
     client.add_cog(Fun(client))

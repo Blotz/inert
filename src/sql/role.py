@@ -9,39 +9,39 @@ class SqlClass(SqlBaseCommands):
             guild_id integer PRIMARY KEY,
             prefix text
         );""",
-        """
-        CREATE TABLE IF NOT EXISTS discord_users (
-            discord_id integer PRIMARY KEY
-        );""",
-        """
-        CREATE TABLE IF NOT EXISTS user_guilds (
-            discord_id integer,
-            guild_id integer,
-            FOREIGN KEY (guild_id) REFERENCES guilds (guild_id)
-                ON DELETE CASCADE ON UPDATE CASCADE,
-            FOREIGN KEY (discord_id) REFERENCES discord_users (discord_id)
-                ON DELETE CASCADE ON UPDATE CASCADE,
-            PRIMARY KEY (discord_id, guild_id)
-        );""",
-        """
-        CREATE TABLE IF NOT EXISTS roles (
-            role_id integer,
-            guild_id integer,
-            FOREIGN KEY (guild_id) REFERENCES guilds (guild_id)
-                ON DELETE CASCADE ON UPDATE CASCADE,
-            PRIMARY KEY (role_id, guild_id)
-        );""",
-        """
-        CREATE TABLE IF NOT EXISTS user_role (
-            discord_id integer,
-            role_id integer,
-            guild_id integer,
-            FOREIGN KEY (role_id, guild_id) REFERENCES roles (role_id, guild_id)
-                ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (discord_id, guild_id) REFERENCES user_guilds (discord_id, guild_id)
-                ON UPDATE CASCADE ON DELETE CASCADE,
-            PRIMARY KEY (discord_id, role_id, guild_id)
-        ); """])
+                          """
+                          CREATE TABLE IF NOT EXISTS discord_users (
+                              discord_id integer PRIMARY KEY
+                          );""",
+                          """
+                          CREATE TABLE IF NOT EXISTS user_guilds (
+                              discord_id integer,
+                              guild_id integer,
+                              FOREIGN KEY (guild_id) REFERENCES guilds (guild_id)
+                                  ON DELETE CASCADE ON UPDATE CASCADE,
+                              FOREIGN KEY (discord_id) REFERENCES discord_users (discord_id)
+                                  ON DELETE CASCADE ON UPDATE CASCADE,
+                              PRIMARY KEY (discord_id, guild_id)
+                          );""",
+                          """
+                          CREATE TABLE IF NOT EXISTS roles (
+                              role_id integer,
+                              guild_id integer,
+                              FOREIGN KEY (guild_id) REFERENCES guilds (guild_id)
+                                  ON DELETE CASCADE ON UPDATE CASCADE,
+                              PRIMARY KEY (role_id, guild_id)
+                          );""",
+                          """
+                          CREATE TABLE IF NOT EXISTS user_role (
+                              discord_id integer,
+                              role_id integer,
+                              guild_id integer,
+                              FOREIGN KEY (role_id, guild_id) REFERENCES roles (role_id, guild_id)
+                                  ON UPDATE CASCADE ON DELETE CASCADE,
+                              FOREIGN KEY (discord_id, guild_id) REFERENCES user_guilds (discord_id, guild_id)
+                                  ON UPDATE CASCADE ON DELETE CASCADE,
+                              PRIMARY KEY (discord_id, role_id, guild_id)
+                          ); """])
 
     ############################################################
 

@@ -1,13 +1,12 @@
-import os
+import logging
 from functools import partial
-
 import discord
 import requests
 from discord.ext import commands
 from praw import Reddit
-
+from settings import (REDDIT_SECRET, REDDIT_ID)
 from sql.count import SqlClass
-
+log = logging.getLogger(__name__)
 
 class Count(commands.Cog, name='counting'):
     """
@@ -17,8 +16,8 @@ class Count(commands.Cog, name='counting'):
     def __init__(self, client):
         self.client = client
         self.reddit = Reddit(
-            client_id=os.getenv('REDDITID'),
-            client_secret=os.getenv('REDDITSECRET'),
+            client_id=REDDIT_ID,
+            client_secret=REDDIT_SECRET,
             user_agent='Yellow Beetlejuice Discord bot'
         )
         self.sql = SqlClass()
@@ -174,4 +173,9 @@ class Count(commands.Cog, name='counting'):
 
 
 def setup(client):
+    log.debug(f'loading {__name__}')
     client.add_cog(Count(client))
+
+
+def teardown(client):
+    log.debug(f'{__name__} unloaded')

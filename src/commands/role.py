@@ -1,12 +1,11 @@
 import logging
-log = logging.getLogger(__name__)
-
 import discord
 from discord.errors import DiscordException
 from discord.ext import commands
 from discord.utils import get
 
 from sql.role import SqlClass
+log = logging.getLogger(__name__)
 
 
 class Role(commands.Cog, name='role'):
@@ -135,4 +134,9 @@ class Role(commands.Cog, name='role'):
 
 
 def setup(client):
+    log.debug(f'loading {__name__}')
     client.add_cog(Role(client))
+
+
+def teardown(client):
+    log.debug(f'{__name__} unloaded')

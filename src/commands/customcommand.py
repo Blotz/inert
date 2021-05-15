@@ -1,9 +1,9 @@
 import traceback
-
+import logging
 from discord.ext import commands
-
 from sql.customcommand import SqlClass
 
+log = logging.getLogger(__name__)
 sql = SqlClass()
 
 
@@ -87,4 +87,9 @@ class Customcommand(commands.Cog, name='Custom commands'):
 
 
 def setup(client):
+    log.debug(f'loading {__name__}')
     client.add_cog(Customcommand(client))
+
+
+def teardown(client):
+    log.debug(f'{__name__} unloaded')

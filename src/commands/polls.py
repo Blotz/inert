@@ -1,14 +1,12 @@
 import logging
-log = logging.getLogger(__name__)
 from asyncio import sleep
-
 import datetime
 import discord
 import re
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from discord.ext import commands
-
 from sql.polls import SqlClass
+log = logging.getLogger(__name__)
 
 
 class Polls(commands.Cog, name='polls'):
@@ -383,4 +381,10 @@ class Polls(commands.Cog, name='polls'):
 
 
 def setup(client):
+    log.debug(f'loading {__name__}')
     client.add_cog(Polls(client))
+
+
+def teardown(client):
+    log.debug(f'{__name__} unloaded')
+

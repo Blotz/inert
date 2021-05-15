@@ -1,4 +1,6 @@
 from discord.ext import commands
+import logging
+log = logging.getLogger(__name__)
 
 
 class Help(commands.Cog, name='Help'):
@@ -90,4 +92,9 @@ class Help(commands.Cog, name='Help'):
 
 
 def setup(client):
+    log.debug(f'loading {__name__}')
     client.add_cog(Help(client))
+
+
+def teardown(client):
+    log.debug(f'{__name__} unloaded')

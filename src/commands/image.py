@@ -1,6 +1,6 @@
 import io
 import logging
-log = logging.getLogger(__name__)
+
 import random
 import re
 from functools import partial
@@ -12,6 +12,7 @@ from PIL import Image, ImageColor
 from discord.ext import commands
 
 from colorapp import colorapp
+log = logging.getLogger(__name__)
 
 
 class ImageEditing(commands.Cog, name='image'):
@@ -255,4 +256,9 @@ class ImageEditing(commands.Cog, name='image'):
 
 
 def setup(client):
+    log.debug(f'loading {__name__}')
     client.add_cog(ImageEditing(client))
+
+
+def teardown(client):
+    log.debug(f'{__name__} unloaded')

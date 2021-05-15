@@ -1,7 +1,8 @@
 import random
-
+import logging
 import discord
 from discord.ext import commands
+log = logging.getLogger(__name__)
 
 
 class Fun(commands.Cog, name='Fun'):
@@ -120,4 +121,9 @@ class Fun(commands.Cog, name='Fun'):
 
 
 def setup(client):
+    log.debug(f'loading {__name__}')
     client.add_cog(Fun(client))
+
+
+def teardown(client):
+    log.debug(f'{__name__} unloaded')

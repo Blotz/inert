@@ -1,8 +1,8 @@
 from time import time
-
+import logging
 from discord.ext import commands
-
 from sql.prefix import SqlClass
+log = logging.getLogger(__name__)
 
 
 class System(commands.Cog, name='System commands'):
@@ -106,4 +106,9 @@ class System(commands.Cog, name='System commands'):
 
 
 def setup(client):
+    log.debug(f'loading {__name__}')
     client.add_cog(System(client))
+
+
+def teardown(client):
+    log.debug(f'{__name__} unloaded')

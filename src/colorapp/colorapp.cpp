@@ -1,7 +1,6 @@
 //cppimport
+#include <pybind11/pybind11.h>
 
-#include "pybind/include/pybind11/pybind11.h"
-#include "pybind/include/pybind11/stl.h"
 #include <vector>
 #include <string>
 #include <cmath>
@@ -31,10 +30,8 @@ PYBIND11_MODULE(colorapp, m){
     m.def("recolor", &recolor_fun);
 }
 
-//mako setup for compiling
 /*
 <%
-cfg['dependencies'] = ['pybind/include/pybind11/stl.h', 'pybind/include/pybind11/pybind11.h']
 setup_pybind11(cfg)
 %>
- */
+*/

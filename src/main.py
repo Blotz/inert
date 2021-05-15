@@ -1,7 +1,7 @@
 from discord.ext import commands
 from discord import Intents
 import os
-import sys
+
 try:
     from dotenv import load_dotenv
     load_dotenv()
@@ -9,13 +9,6 @@ except ImportError:
     print("python-dotenv not loaded")
 
 from sql.prefix import SqlClass
-
-# generate path of colorapp
-colorapp_path = os.path.abspath("colorapp")
-
-# add colorapp to include path
-if colorapp_path not in sys.path:
-    sys.path.append(colorapp_path)
 
 # prefix
 sql = SqlClass()

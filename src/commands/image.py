@@ -8,10 +8,8 @@ import io
 import random
 from os import listdir
 
-#import hook, tell cppimport to compile colorapp
 import cppimport.import_hook
-import colorapp
-
+from colorapp import colorapp
 
 
 class ImageEditing(commands.Cog, name='image'):
@@ -79,23 +77,6 @@ class ImageEditing(commands.Cog, name='image'):
         :param strength:
         :return:
         """
-        # ORIGINAL PYTHON-BASED RECOLOR, uncomment and comment out cpp based if recolor is broken
-        # for i in range(0, img.size[0]):  # process all pixels
-        #     for j in range(0, img.size[1]):
-        #         pixel_data = img.getpixel((i, j))
-        #
-        #         # NewValue = ((OldValue/255)*(1-strength)) + ((Recolor/255)*strength)
-        #         new_color = [
-        #             abs(round(
-        #                 ((pixel_data[n] / 255) * (1 - strength) + (color[n] / 255) * strength) * 255
-        #             )) for n in range(3)
-        #         ]
-        #
-        #         new_color.append(pixel_data[3])
-        #         new_color = tuple(new_color)
-        #
-        #         img.putpixel((i, j), new_color)
-
         img = Image.frombytes('RGBA', img.size, colorapp.recolor(img.tobytes(), height, width, color[0], color[1], color[2], strength))
 
         return img

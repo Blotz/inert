@@ -24,9 +24,8 @@ class Polls(commands.Cog, name='polls'):
 
         # starts up the schedular and all the tasks for all commands on timer
         self.sched = AsyncIOScheduler()
-        self.sched.start()
-
         client.loop.create_task(self._async_init())
+        self.sched.start()
 
     async def _async_init(self) -> None:
         """Queues up all in progress polls

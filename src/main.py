@@ -26,8 +26,12 @@ if DEBUG is True:
 # loads all cogs
 for filename in os.listdir('./commands'):
     if filename.endswith('.py'):
-        logging.debug(f'loading {filename}...')
-        client.load_extension(f'commands.{filename[:-3]}')
+        try:
+            logging.debug(f'loading {filename}...')
+            client.load_extension(f'commands.{filename[:-3]}')
+        except Exception as e:
+            log.error(type(e))
+            log.error(e)
 
 
 # prints when bot has started up

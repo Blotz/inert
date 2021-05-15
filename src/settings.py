@@ -23,7 +23,7 @@ REDDIT_SECRET: str = os.getenv("REDDIT_SECRET")
 DATABASE_TYPE: str = os.getenv("DATABASE_TYPE")
 
 # Debug Mode Setup
-__handlers = [logging.FileHandler('logs/discord_bot.log'), logging.StreamHandler()]
+__handlers = [logging.FileHandler('data/logs/discord_bot.log'), logging.StreamHandler()]
 __format = '%(asctime)s:%(levelname)s:%(message)s'
 
 if DEBUG is True:

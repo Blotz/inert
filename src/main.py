@@ -10,13 +10,6 @@ except ImportError:
 
 from sql.prefix import SqlClass
 
-# generate path of colorapp
-colorapp_path = os.path.abspath("colorapp")
-
-# add colorapp to include path
-if colorapp_path not in sys.path:
-    sys.path.append(colorapp_path)
-
 # prefix
 sql = SqlClass()
 def get_prefix(client, message): return sql.get_prefix(message.guild.id)[0][0]

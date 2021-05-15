@@ -7,9 +7,10 @@ services:
         volumes:
             - "inert:/code/data"
         environment:
+            - DEBUG=$DEBUG
             - TOKEN=$TOKEN
-            - REDDITID=$REDDITID
-            - REDDITSECRET=$REDDITSECRET
+            - REDDIT_ID=$REDDIT_ID
+            - REDDIT_SECRET=$REDDIT_SECRET
 
 volumes:
     inert:

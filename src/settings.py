@@ -12,11 +12,11 @@ log = logging.getLogger(__name__)
 # Check for python-dotenv
 try:
     from dotenv import load_dotenv
-
     load_dotenv()
 except ImportError:
     logging.debug("python-dotenv not loaded. Hope you set your environment variables.")
 
+print(bool(os.getenv("DEBUG")))
 DEBUG: bool = bool(os.getenv("DEBUG", False))
 TOKEN: str = os.getenv("TOKEN")
 REDDIT_ID: str = os.getenv("REDDIT_ID")
@@ -41,4 +41,10 @@ else:
 # Check for token and exit if not exists
 if TOKEN is None:
     log.error("Discord API token not set")
+    exit()
+elif REDDIT_ID is None:
+    log.error("REDDIT ID not set")
+    exit()
+elif REDDIT_SECRET is None:
+    log.error("REDDIT SECRET not set")
     exit()

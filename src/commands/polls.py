@@ -83,7 +83,6 @@ class Polls(commands.Cog, name='polls'):
         :param guild_id: guild of the poll
         :return: discord.Embed
         """
-        log.debug('Counting poll')
         poll_info = self.sql.get_poll(message_id, channel_id, guild_id)
 
         votes = {}
@@ -216,7 +215,7 @@ class Polls(commands.Cog, name='polls'):
                                )
 
         # adding reactions
-        log.debug('Addng reactions')
+        log.debug('Adding reactions')
         for count in range(len(args)):
             await msg.add_reaction(self.pollsigns[count])
 

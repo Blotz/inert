@@ -4,8 +4,9 @@ import discord
 import requests
 from discord.ext import commands
 from praw import Reddit
-from settings import (REDDIT_SECRET, REDDIT_ID)
 from sql.count import SqlClass
+import settings
+from settings import (REDDIT_SECRET, REDDIT_ID)
 log = logging.getLogger(__name__)
 
 

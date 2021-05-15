@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  beetlejuice:
+    container_name: beetlejuice
+    image: thatonewander/beetlejuice:latest
+    volumes:
+      - "beetlejuice:/code/data"
+    environment:
+      - TOKEN=$TOKEN
+      - REDDITID=$REDDITID
+      - REDDITSECRET=$REDDITSECRET
+
+volumes:
+    beetlejuice:
+        name: beetlejuice

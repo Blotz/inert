@@ -1,21 +1,25 @@
-from discord.ext import commands
-from sql.count import SqlClass
-from praw import Reddit
-import os
+import logging
 from functools import partial
-import requests
 import discord
+import requests
+from discord.ext import commands
+from praw import Reddit
+from sql.count import SqlClass
+import settings
+from settings import (REDDIT_SECRET, REDDIT_ID)
+log = logging.getLogger(__name__)
 
 
 class Count(commands.Cog, name='counting'):
     """
     Counts different subreddits
     """
+
     def __init__(self, client):
         self.client = client
         self.reddit = Reddit(
-            client_id=os.getenv('REDDITID'),
-            client_secret=os.getenv('REDDITSECRET'),
+            client_id=REDDIT_ID,
+            client_secret=REDDIT_SECRET,
             user_agent='Yellow Beetlejuice Discord bot'
         )
         self.sql = SqlClass()
@@ -84,8 +88,10 @@ class Count(commands.Cog, name='counting'):
 
         msg = await ctx.send('Counting...')
 
+        log.debug('Getting hot posts')
         fn = partial(self.get_hotposts, sub[0])
         posts = await self.client.loop.run_in_executor(None, fn)
+        log.debug('Gotten hotposts. counting')
 
         # Include only the author names.
         # only green has proper css class names. as green will be using the command the most on their sub, it will be used to verify color
@@ -164,12 +170,16 @@ class Count(commands.Cog, name='counting'):
 
     @count.error
     async def _count(self, error, ctx):
-        if isinstance(error, commands.errors.MissingRequiredArgument) or isinstance(error,
-                                                                                    discord.errors.DiscordException):
+        if isinstance(error, commands.errors.MissingRequiredArgument) or isinstance(error, discord.errors.DiscordException):
             await ctx.send('`ERROR Missing Required Argument: .count yellow`')
         else:
             await ctx.send(f'`ERROR: {type(error), error}`')
 
 
 def setup(client):
+    log.debug(f'loading {__name__}')
     client.add_cog(Count(client))
+
+
+def teardown(client):
+    log.debug(f'{__name__} unloaded')

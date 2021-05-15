@@ -1,12 +1,15 @@
 from time import time
+import logging
 from discord.ext import commands
 from sql.prefix import SqlClass
+log = logging.getLogger(__name__)
 
 
 class System(commands.Cog, name='System commands'):
     """
     system commands
     """
+
     def __init__(self, client: object):
         self.client = client
         self.sql = SqlClass()
@@ -39,10 +42,10 @@ class System(commands.Cog, name='System commands'):
         """
         : loads a category of commands
         """
-        print(f'loading {cog}...')
+        log.info(f'loading {cog}...')
         self.client.load_extension(f'commands.{cog}')
         await ctx.send(f'`successfully loaded {cog}`')
-        print('success!')
+        log.info('success!')
 
     @commands.command()
     @commands.is_owner()
@@ -50,10 +53,10 @@ class System(commands.Cog, name='System commands'):
         """
         : unloads a category of commands
         """
-        print(f'unloading {cog}...')
+        log.info(f'unloading {cog}...')
         self.client.unload_extension(f'commands.{cog}')
         await ctx.send(f'`successfully unloaded {cog}`')
-        print('success!')
+        log.info('success!')
 
     @commands.command()
     @commands.is_owner()
@@ -61,19 +64,11 @@ class System(commands.Cog, name='System commands'):
         """
         : reloads a category of commands
         """
-        print(f'reloading {cog}...')
+        log.info(f'reloading {cog}...')
         self.client.unload_extension(f'commands.{cog}')
         self.client.load_extension(f'commands.{cog}')
         await ctx.send(f'`successfully reloaded {cog}`')
-        print('success!')
-
-    @commands.command(name='status')
-    @commands.is_owner()
-    async def status(self, ctx, game):
-        game = discord.Game(game)
-        await self.bot.change_presence(status=discord.Status.online, activity=game)
-        embedMsg = discord.Embed(color=0xFCF4A3, title=":sunny::sunflower: Status Changed :sunflower::sunny:")
-        await ctx.send(embed=embedMsg)
+        log.info('success!')
 
     # Loading and unloading of cogs Error handling
     @load.error
@@ -85,7 +80,7 @@ class System(commands.Cog, name='System commands'):
         # error if user is not bot owner/insufficient perms
         if isinstance(error, commands.errors.NotOwner):
             await ctx.send('`ERROR: insufficient perms to run this command`')
-        print('failure!')
+        log.info('failure!')
 
     @unload.error
     async def unload_error(self, ctx: object, error: object):
@@ -96,7 +91,7 @@ class System(commands.Cog, name='System commands'):
         # error if user is not bot owner/insufficient perms
         if isinstance(error, commands.errors.NotOwner):
             await ctx.send('`ERROR: insufficient perms to run this command`')
-        print('failure!')
+        log.info('failure!')
 
     @reload.error
     async def reload_error(self, ctx: object, error: object):
@@ -107,19 +102,13 @@ class System(commands.Cog, name='System commands'):
         # error if user is not bot owner/insufficient perms
         if isinstance(error, commands.errors.NotOwner):
             await ctx.send('`ERROR: insufficient perms to run this command`')
-        print('failure!')
-
-    @status.error
-    async def status_error(self, ctx: object, error: object):
-        # error if cog doesnt exist
-        if isinstance(error, commands.CommandInvokeError):
-            await ctx.send('`ERROR: cog has not been loaded`')
-
-        # error if user is not bot owner/insufficient perms
-        if isinstance(error, commands.errors.NotOwner):
-            await ctx.send('`ERROR: insufficient perms to run this command`')
-        print('failure!')
+        log.info('failure!')
 
 
 def setup(client):
+    log.debug(f'loading {__name__}')
     client.add_cog(System(client))
+
+
+def teardown(client):
+    log.debug(f'{__name__} unloaded')

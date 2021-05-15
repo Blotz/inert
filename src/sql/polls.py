@@ -1,5 +1,6 @@
-from sql.sql import SqlBaseCommands
 import datetime
+
+from sql.sql import SqlBaseCommands
 
 
 class SqlClass(SqlBaseCommands):
@@ -9,58 +10,58 @@ class SqlClass(SqlBaseCommands):
             guild_id integer PRIMARY KEY,
             prefix text
         );""",
-        """
-        CREATE TABLE IF NOT EXISTS discord_users (
-            discord_id integer PRIMARY KEY
-        );""",
-        """
-        CREATE TABLE IF NOT EXISTS user_guilds (
-            discord_id integer,
-            guild_id integer,
-            FOREIGN KEY (guild_id) REFERENCES guilds (guild_id)
-                ON DELETE CASCADE ON UPDATE CASCADE,
-            FOREIGN KEY (discord_id) REFERENCES discord_users (discord_id)
-                ON DELETE CASCADE ON UPDATE CASCADE,
-            PRIMARY KEY (discord_id, guild_id)
-        );""",
-        """
-        CREATE TABLE IF NOT EXISTS polls (
-            message_id integer,
-            channel_id integer,
-            guild_id integer,
-            name text,
-            time datetime,
-            FOREIGN KEY (guild_id) REFERENCES guilds (guild_id)
-                ON DELETE CASCADE ON UPDATE CASCADE,
-            PRIMARY KEY (message_id, channel_id, guild_id)
-        );""",
-        """
-        CREATE TABLE IF NOT EXISTS options (
-            message_id integer,
-            channel_id integer,
-            guild_id integer,
-            emote_id integer,
-            name text,
-            FOREIGN KEY (message_id, channel_id, guild_id)
-                REFERENCES polls (message_id, channel_id, guild_id)
-                ON DELETE CASCADE ON UPDATE CASCADE,
-            PRIMARY KEY (emote_id, message_id, channel_id, guild_id)
-        );""",
-        """
-        CREATE TABLE IF NOT EXISTS votes (
-            discord_id integer,
-            emote_id integer,
-            message_id integer,
-            channel_id integer,
-            guild_id integer,
-            FOREIGN KEY (emote_id, message_id, channel_id, guild_id)
-                REFERENCES options (emote_id, message_id, channel_id, guild_id)
-                ON DELETE CASCADE ON UPDATE CASCADE,
-            FOREIGN KEY (discord_id, guild_id) REFERENCES user_guilds (discord_id, guild_id)
-                ON UPDATE CASCADE ON DELETE CASCADE,
-            PRIMARY KEY (discord_id, emote_id, message_id, channel_id, guild_id)
-        );
-        """])
+                          """
+                          CREATE TABLE IF NOT EXISTS discord_users (
+                              discord_id integer PRIMARY KEY
+                          );""",
+                          """
+                          CREATE TABLE IF NOT EXISTS user_guilds (
+                              discord_id integer,
+                              guild_id integer,
+                              FOREIGN KEY (guild_id) REFERENCES guilds (guild_id)
+                                  ON DELETE CASCADE ON UPDATE CASCADE,
+                              FOREIGN KEY (discord_id) REFERENCES discord_users (discord_id)
+                                  ON DELETE CASCADE ON UPDATE CASCADE,
+                              PRIMARY KEY (discord_id, guild_id)
+                          );""",
+                          """
+                          CREATE TABLE IF NOT EXISTS polls (
+                              message_id integer,
+                              channel_id integer,
+                              guild_id integer,
+                              name text,
+                              time datetime,
+                              FOREIGN KEY (guild_id) REFERENCES guilds (guild_id)
+                                  ON DELETE CASCADE ON UPDATE CASCADE,
+                              PRIMARY KEY (message_id, channel_id, guild_id)
+                          );""",
+                          """
+                          CREATE TABLE IF NOT EXISTS options (
+                              message_id integer,
+                              channel_id integer,
+                              guild_id integer,
+                              emote_id integer,
+                              name text,
+                              FOREIGN KEY (message_id, channel_id, guild_id)
+                                  REFERENCES polls (message_id, channel_id, guild_id)
+                                  ON DELETE CASCADE ON UPDATE CASCADE,
+                              PRIMARY KEY (emote_id, message_id, channel_id, guild_id)
+                          );""",
+                          """
+                          CREATE TABLE IF NOT EXISTS votes (
+                              discord_id integer,
+                              emote_id integer,
+                              message_id integer,
+                              channel_id integer,
+                              guild_id integer,
+                              FOREIGN KEY (emote_id, message_id, channel_id, guild_id)
+                                  REFERENCES options (emote_id, message_id, channel_id, guild_id)
+                                  ON DELETE CASCADE ON UPDATE CASCADE,
+                              FOREIGN KEY (discord_id, guild_id) REFERENCES user_guilds (discord_id, guild_id)
+                                  ON UPDATE CASCADE ON DELETE CASCADE,
+                              PRIMARY KEY (discord_id, emote_id, message_id, channel_id, guild_id)
+                          );
+                          """])
 
     ############################################################
 

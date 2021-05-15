@@ -1,11 +1,15 @@
-import os
-externalDB = os.getenv("DATABASE_TYPE")
-if externalDB is not None:
+from settings import (DATABASE_TYPE)
+import logging
+log = logging.getLogger(__name__)
+
+if DATABASE_TYPE is not None:
+    log.info("Using pyodbc")
     try:
         import pyodbc
     except ImportError:
-        print("pyodbc not loaded")
+        log.error("pyodbc not loaded")
 else:
+    log.info("Using sqlite3")
     import sqlite3
 
 
@@ -20,7 +24,7 @@ class SqlBaseCommands:
             for table in tables:
                 conn.execute(table)
         else:
-            print("Error! cannot create the database connection.")
+            log.error("Error! cannot create the database connection.")
 
     @staticmethod
     def create_connection(db_file):
@@ -32,7 +36,7 @@ class SqlBaseCommands:
         conn = None
         try:
             # If you are testing and debugging, change which lines are commented out. you will have to do this for each sql file
-            if externalDB is None:
+            if DATABASE_TYPE is None:
                 conn = sqlite3.connect(db_file)
             else:
                 # TODO: Test this and work out how it should be set up. its scuffed rn
@@ -44,7 +48,7 @@ class SqlBaseCommands:
                                       )
             return conn
         except Exception as e:
-            print(e)
+            log.error(e)
 
         return conn
 
@@ -64,7 +68,7 @@ class SqlBaseCommands:
                 conn.commit()
                 return data
             except Exception as e:
-                print(e)
+                log.error(e)
 
     def execute_many(self, sql: str, parms: list) -> list:
         """Executes a multi line command
@@ -82,4 +86,4 @@ class SqlBaseCommands:
                 conn.commit()
                 return data
             except Exception as e:
-                print(e)
+                log.error(e)

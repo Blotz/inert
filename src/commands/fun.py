@@ -1,11 +1,15 @@
+import random
+import logging
 import discord
 from discord.ext import commands
-import random
+log = logging.getLogger(__name__)
+
 
 class Fun(commands.Cog, name='Fun'):
     """
     Full of lots of fun commands
     """
+
     def __init__(self, client):
         self.client = client
         self.CHARACTER_VALUES = CHARACTER_VALUES = {
@@ -99,7 +103,6 @@ class Fun(commands.Cog, name='Fun'):
 
         await ctx.send(out.decode())
 
-
     @commands.command()
     async def uwu(self, ctx, *, message):
         """
@@ -116,5 +119,11 @@ class Fun(commands.Cog, name='Fun'):
         # and send one "as" da usew who invoked da command ÚwÚ
         await ctx.send(f"{res + ' ' + random.choice(uwus)}")
 
+
 def setup(client):
+    log.debug(f'loading {__name__}')
     client.add_cog(Fun(client))
+
+
+def teardown(client):
+    log.debug(f'{__name__} unloaded')

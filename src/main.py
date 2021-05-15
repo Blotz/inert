@@ -1,27 +1,37 @@
-from discord.ext import commands
-from discord import Intents
+import logging
 import os
-
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except ImportError:
-    print("python-dotenv not loaded")
-
+from discord import Intents
+from discord.ext import commands
 from sql.prefix import SqlClass
 
-# prefix
+from settings import (TOKEN, DEBUG)
+
+log = logging.getLogger(__name__)
+
+
+# Creating client
 sql = SqlClass()
-def get_prefix(client, message): return sql.get_prefix(message.guild.id)[0][0]
+def get_prefix(client, message):
+    return sql.get_prefix(message.guild.id)[0][0]
+
 # add discord bot perms
 intents = Intents.default()
-# create the client
 client = commands.Bot(command_prefix=get_prefix, intents=intents)
+
+# Load extensions
+log.debug("Loading default extensions...")
+if DEBUG is True:
+    log.info("=== DEBUG MODE ENABLED ===")
 
 # loads all cogs
 for filename in os.listdir('./commands'):
     if filename.endswith('.py'):
-        client.load_extension(f'commands.{filename[:-3]}')
+        try:
+            logging.debug(f'loading {filename}...')
+            client.load_extension(f'commands.{filename[:-3]}')
+        except Exception as e:
+            log.error(type(e))
+            log.error(e)
 
 
 # prints when bot has started up
@@ -46,7 +56,7 @@ async def on_ready():
             lst.append(db_guild)
 
     sql.remove_guilds(lst)
-    print("bot ready")
+    log.info("bot ready")
 
 
 @client.event
@@ -59,4 +69,11 @@ async def on_guild_remove(guild):
     sql.remove_guild(guild.id)
 
 
-client.run(os.getenv("TOKEN"))
+@client.before_invoke
+async def before_invoke(ctx):
+    # logging for when any command is ran
+    log.info(f'{ctx.author} used {ctx.command} at {ctx.message.created_at}')
+
+
+log.info('Starting bot')
+client.run(TOKEN)

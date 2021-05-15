@@ -1,8 +1,12 @@
-import discord, re, datetime
+import logging
+from asyncio import sleep
+import datetime
+import discord
+import re
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from discord.ext import commands
 from sql.polls import SqlClass
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from asyncio import sleep
+log = logging.getLogger(__name__)
 
 
 class Polls(commands.Cog, name='polls'):
@@ -20,9 +24,8 @@ class Polls(commands.Cog, name='polls'):
 
         # starts up the schedular and all the tasks for all commands on timer
         self.sched = AsyncIOScheduler()
-        self.sched.start()
-
         client.loop.create_task(self._async_init())
+        self.sched.start()
 
     async def _async_init(self) -> None:
         """Queues up all in progress polls
@@ -54,6 +57,7 @@ class Polls(commands.Cog, name='polls'):
         """
         poll = self.sql.get_poll_time(message_id, channel_id, guild_id)
         if poll:
+            log.debug('Deleting poll')
             self.sql.remove_poll(message_id, channel_id, guild_id)
             if poll[0][0]:
                 self.sched.remove_job(str(poll[0][1]) + str(poll[0][2]) + str(poll[0][3]))
@@ -105,14 +109,11 @@ class Polls(commands.Cog, name='polls'):
         if payload.member == self.client.user: return
 
         if self.sql.get_poll(payload.message_id, payload.channel_id, payload.guild_id):
-            if self.sql.check_vote(payload.user_id, payload.emoji.name, payload.message_id, payload.channel_id,
-                                   payload.guild_id):
-                self.sql.remove_vote(payload.user_id, payload.emoji.name, payload.message_id, payload.channel_id,
-                                     payload.guild_id)
+            if self.sql.check_vote(payload.user_id, payload.emoji.name, payload.message_id, payload.channel_id, payload.guild_id):
+                self.sql.remove_vote(payload.user_id, payload.emoji.name, payload.message_id, payload.channel_id, payload.guild_id)
             else:
                 self.sql.add_user(payload.user_id, payload.guild_id)
-                self.sql.add_vote(payload.user_id, payload.emoji.name, payload.message_id, payload.channel_id,
-                                  payload.guild_id)
+                self.sql.add_vote(payload.user_id, payload.emoji.name, payload.message_id, payload.channel_id, payload.guild_id)
 
             # deletes reaction if it found the poll
             channel = self.client.get_channel(payload.channel_id)
@@ -137,6 +138,7 @@ class Polls(commands.Cog, name='polls'):
         :param args: 1d2h3m4s {title}[arg][arg]
         :return: Creates a poll with timed output
         """
+        log.debug('matching regex poll')
         time = None
         # checks message against regex to see if it matches
         if not self.reg.match(args):
@@ -162,8 +164,8 @@ class Polls(commands.Cog, name='polls'):
             if not check:
                 raise discord.errors.DiscordException
             else:
-                time = datetime.datetime.now() + datetime.timedelta(days=time_dict['d'], hours=time_dict['h'],
-                                                                    minutes=time_dict['m'], seconds=time_dict['s'])
+                time = datetime.datetime.now() + datetime.timedelta(days=time_dict['d'], hours=time_dict['h'], minutes=time_dict['m'],
+                                                                    seconds=time_dict['s'])
 
             # checks if the args are formatted correctly
             if not self.reg.match(args):
@@ -201,6 +203,7 @@ class Polls(commands.Cog, name='polls'):
         await msg.edit(embed=embed)
 
         # SQL Setup
+        log.debug('Uploading poll data to database')
         self.sql.add_poll(msg.id, msg.channel.id, msg.author.guild.id, name, time)
         self.sql.add_options(msg.id, msg.channel.id, msg.author.guild.id, self.pollsigns, args)
         # Background task
@@ -211,6 +214,7 @@ class Polls(commands.Cog, name='polls'):
                                )
 
         # adding reactions
+        log.debug('Adding reactions')
         for count in range(len(args)):
             await msg.add_reaction(self.pollsigns[count])
 
@@ -221,11 +225,10 @@ class Polls(commands.Cog, name='polls'):
         :param error: The type of error
         :return:
         """
-        if isinstance(error, commands.errors.MissingRequiredArgument) or isinstance(error,
-                                                                                    discord.errors.DiscordException):
+        if isinstance(error, commands.errors.MissingRequiredArgument) or isinstance(error, discord.errors.DiscordException):
             await ctx.send('`ERROR Missing Required Argument: make sure it is .anonpoll <time 1d2h3m4s> {title} [args]`')
         else:
-            print(error)
+            log.info(error)
 
     @commands.command(aliases=['checkvote'])
     async def checkvotes(self, ctx) -> None:
@@ -303,7 +306,7 @@ class Polls(commands.Cog, name='polls'):
             await ctx.send(
                 '`ERROR Missing Required Argument: make sure it is .endpoll <message id> <send to dms True/False>`')
         else:
-            print(error)
+            log.info(error)
 
     @commands.command()
     async def poll(self, ctx, *, args: str = ' ') -> None:
@@ -377,4 +380,10 @@ class Polls(commands.Cog, name='polls'):
 
 
 def setup(client):
+    log.debug(f'loading {__name__}')
     client.add_cog(Polls(client))
+
+
+def teardown(client):
+    log.debug(f'{__name__} unloaded')
+

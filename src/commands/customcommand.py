@@ -1,7 +1,9 @@
 import traceback
+import logging
 from discord.ext import commands
 from sql.customcommand import SqlClass
 
+log = logging.getLogger(__name__)
 sql = SqlClass()
 
 
@@ -11,6 +13,7 @@ def is_private_command():
         if guild_id:
             return ctx.guild.id == sql.get_command_guild(ctx.command.name)[0][0]
         return False
+
     return commands.check(predicate)
 
 
@@ -43,6 +46,7 @@ class Customcommand(commands.Cog, name='Custom commands'):
     """
     Custom commands
     """
+
     def __init__(self, client):
         self.client = client
 
@@ -83,4 +87,9 @@ class Customcommand(commands.Cog, name='Custom commands'):
 
 
 def setup(client):
+    log.debug(f'loading {__name__}')
     client.add_cog(Customcommand(client))
+
+
+def teardown(client):
+    log.debug(f'{__name__} unloaded')

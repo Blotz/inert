@@ -9,10 +9,10 @@ class SqlClass(SqlBaseCommands):
             PRIMARY KEY (discord_id)
         );""",
         """
-        CREATE TABLE IF NOT EXISTS reddit_users (
-            reddit_name text,
-            color text,
-            PRIMARY KEY (reddit_name)
+          CREATE TABLE IF NOT EXISTS reddit_users (
+              reddit_name text,
+              color text,
+              PRIMARY KEY (reddit_name)
         );""",
         """
         CREATE TABLE IF NOT EXISTS reddit_discord (

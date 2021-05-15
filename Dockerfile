@@ -23,8 +23,10 @@ COPY requirements.txt .
 ### . Install build deps and download modules
 RUN apk add --no-cache make \
   gcc \
+  g++ \
   python3-dev \
   musl-dev \
+  unixodbc-dev \
   # Pillow dependencies
   freetype-dev \
   fribidi-dev \
@@ -37,7 +39,7 @@ RUN apk add --no-cache make \
   tk-dev \
   zlib-dev \
 && pip3 install --no-cache-dir -r requirements.txt \
-&& apl del python3-dev musl-dev freetype-dev fribidi-dev harfbuzz-dev jpeg-dev lcms2-dev openjpeg-dev tcl-dev tiff-dev tk-dev zlib-dev
+&& apk del python3-dev musl-dev freetype-dev fribidi-dev harfbuzz-dev jpeg-dev lcms2-dev openjpeg-dev tcl-dev tiff-dev tk-dev zlib-dev
 
 ### . Copy code
 COPY src/ .

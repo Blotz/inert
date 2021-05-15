@@ -1,6 +1,5 @@
 from time import time
 from discord.ext import commands
-import git
 from sql.prefix import SqlClass
 
 

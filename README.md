@@ -6,7 +6,6 @@
 </h6>
 
 ---
-
 # Setting up the bot
 ## Linux
 <p>
@@ -73,3 +72,4 @@ source venv/bin/activate
 ```
 then run `python main.py` in the src folder
 
+---

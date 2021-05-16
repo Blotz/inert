@@ -57,6 +57,7 @@ TOKEN=your_discord_bot_token
 REDDIT_ID=reddit_application_id
 REDDIT_SECRET=reddit_application_secret
 ```
+---
 # Running the code
 If all steps above were successful , you should see the following (or something similar): <br>
 `(venv) username@hostname:file $` <br>
@@ -71,3 +72,4 @@ you will need to run the following commands in order to run the code <br>
 source venv/bin/activate
 ```
 then run `python main.py` in the src folder
+

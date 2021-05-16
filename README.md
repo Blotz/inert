@@ -31,19 +31,13 @@ Contributions, issues and feature requests are welcome!<br />Feel free to check 
 ---
 # Setting up the bot
 ## Linux
-<p>
 Download required libraries and clone the github source code
-</p>
-
 ```bash
 sudo apt-get install unixodbc-dev -y && \
   pip3 install virtualenv && \
   git clone https://github.com/Blotz/inert.git
 ```
-<p>
 Download venv and activate the venv
-</p>
-
 ```bash
 cd inert && \
   python3 -m virtualenv venv && \
@@ -53,19 +47,15 @@ cd inert && \
 
 
 ## Windows
-<p>
+
 Download required libraries and clone the github source code. <br>
 You will need to install [Visual C++ Build Tools](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2019)
-</p>
 
 ```bash
 pip install virtualenv && \
   git clone https://github.com/Blotz/inert.git
 ```
-<p>
 Download venv and activate the venv
-</p>
-
 ```bash
 cd inert && \
   python -m virtualenv venv && \

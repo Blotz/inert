@@ -25,8 +25,8 @@ DATABASE_TYPE: str = os.getenv("DATABASE_TYPE")
 # Debug Mode Setup
 __handlers = [logging.FileHandler('data/logs/discord_bot.log'), logging.StreamHandler()]
 __format = '%(asctime)s:%(levelname)s:%(message)s'
-if 'logs' not in os.listdir('data'):
-    os.mkdir('data/logs')
+# if 'logs' not in os.listdir('data'):
+#     os.mkdir('data/logs')
 # data/logs/
 
 if DEBUG is True:

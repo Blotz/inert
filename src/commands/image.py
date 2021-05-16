@@ -1,17 +1,17 @@
 import io
 import logging
-
 import random
 import re
 from functools import partial
 from os import listdir
-
 import aiohttp
 import discord
 from PIL import Image, ImageColor
 from discord.ext import commands
 
+import cppimport.import_hook
 from colorapp import colorapp
+
 log = logging.getLogger(__name__)
 
 

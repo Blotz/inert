@@ -2,7 +2,7 @@
 FROM alpine:latest
 
 ### 2. Label
-LABEL maintainer="Dockerfile created by zanda8893 <https://github.com/zanda8893>"
+LABEL maintainer="Dockerfile created by Blotz <https://github.com/blotz>"
 
 ### 3. Get python3 via the package manager
 RUN apk update \

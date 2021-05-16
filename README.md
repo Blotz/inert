@@ -5,6 +5,29 @@
   A Discord bot written in python 3.8 or greater!
 </h6>
 
+<p>
+  <a href="https://github.com/Blotz/inert/wiki" target="_blank">
+    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
+  </a>
+  <a href="https://github.com/Blotz/inert/blob/main/LICENSE" target="_blank">
+    <img alt="License: GPL--3.0 Licence" src="https://img.shields.io/badge/License-GPL--3.0 Licence-yellow.svg" />
+  </a>
+</p>
+
+---
+# Info
+## Install
+```sh
+https://github.com/Blotz/inert#setting-up-the-bot
+```
+
+### Author
+👤 **Blotz**
+* Github: [@Blotz](https://github.com/Blotz)
+
+### 🤝 Contributing
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Blotz/inert/issues).
+
 ---
 # Setting up the bot
 ## Linux
@@ -73,3 +96,7 @@ source venv/bin/activate
 then run `python main.py` in the src folder
 
 ---
+## 📝 License
+
+Copyright © 2021 [Blotz](https://github.com/Blotz).<br />
+This project is [GPL--3.0 Licence](https://github.com/Blotz/inert/blob/main/LICENSE) licensed.

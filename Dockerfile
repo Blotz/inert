@@ -42,6 +42,11 @@ RUN apk add --no-cache make \
   tiff-dev \
   tk-dev \
   zlib-dev \
+  # SQL Drivers
+  libc-dev \
+  libxml2 \
+  mariadb-dev \
+  postgresql-dev \
 && pip3 install --no-cache-dir -r requirements.txt \
 && apk del musl-dev freetype-dev fribidi-dev harfbuzz-dev jpeg-dev lcms2-dev openjpeg-dev tcl-dev tiff-dev tk-dev zlib-dev
 

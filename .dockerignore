@@ -1,0 +1,14 @@
+# ignore compiled code
+colorapp.cpython*
+.rendered*
+__pycache__/
+
+# ignore readme
+readme.md
+
+# ignore github
+.gitkeep
+
+# ignore homemade files
+datatables.db
+discord__bot.log

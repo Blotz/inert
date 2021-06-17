@@ -23,8 +23,8 @@ REDDIT_SECRET: str = os.getenv("REDDIT_SECRET")
 DATABASE_TYPE: str = os.getenv("DATABASE_TYPE")
 
 # Debug Mode Setup
-__handlers = [logging.FileHandler('data/logs/discord_bot.log'), logging.StreamHandler()]
-__format = '%(asctime)s:%(levelname)s:%(message)s'
+__handlers = [logging.FileHandler('./data/logs/discord_bot.log'), logging.StreamHandler()]
+__format = "[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s"
 # if 'logs' not in os.listdir('data'):
 #     os.mkdir('data/logs')
 # data/logs/
@@ -34,25 +34,28 @@ if DEBUG is True:
     logging.basicConfig(
         level=logging.DEBUG,
         format=__format,
+        datefmt="%d/%b/%Y %H:%M:%S",
         handlers=__handlers
     )
     # Set Logger Level
-    logger = logging.getLogger("discord")
-    logger.setLevel(logging.WARN)
-    logger = logging.getLogger("apscheduler.scheduler:Scheduler")
-    logger.setLevel(logging.WARN)
+    logging.getLogger("discord").setLevel(logging.WARN)
+    logging.getLogger("apscheduler.scheduler:Scheduler").setLevel(logging.WARN)
+    logging.getLogger("cppimport.import_hook").setLevel(logging.ERROR)
+
     log.info("Debug Mode Enabled")
 else:
     # noinspection PyArgumentList
     logging.basicConfig(
         level=logging.INFO,
         format=__format,
+        datefmt="%d/%b/%Y %H:%M:%S",
         handlers=__handlers
     )
-    logger = logging.getLogger("discord")
-    logger.setLevel(logging.ERROR)
-    logger = logging.getLogger("apscheduler.scheduler:Scheduler")
-    logger.setLevel(logging.ERROR)
+    logging.getLogger("discord").setLevel(logging.ERROR)
+    logging.getLogger("apscheduler.scheduler:Scheduler").setLevel(logging.ERROR)
+    logging.getLogger("cppimport.import_hook").setLevel(logging.ERROR)
+
+
 
 # Check for token and exit if not exists
 if TOKEN is None:

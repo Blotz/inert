@@ -8,11 +8,6 @@ from settings import (TOKEN, DEBUG)
 
 log = logging.getLogger(__name__)
 
-import pyodbc
-log.info('#########################################')
-for driver in pyodbc.drivers():
-    log.info(driver)
-
 # Creating client
 sql = SqlClass()
 def get_prefix(client, message):

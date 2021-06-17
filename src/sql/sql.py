@@ -2,15 +2,8 @@ from settings import (DATABASE_TYPE)
 import logging
 log = logging.getLogger(__name__)
 
-if DATABASE_TYPE is not None:
-    log.info("Using pyodbc")
-    try:
-        import pyodbc
-    except ImportError:
-        log.error("pyodbc not loaded")
-else:
-    log.info("Using sqlite3")
-    import sqlite3
+log.info("Using sqlite3")
+import sqlite3
 
 
 class SqlBaseCommands:
@@ -36,17 +29,8 @@ class SqlBaseCommands:
         conn = None
         try:
             # If you are testing and debugging, change which lines are commented out. you will have to do this for each sql file
-            if DATABASE_TYPE is None:
-                conn = sqlite3.connect(db_file)
-            else:
-                # TODO: Test this and work out how it should be set up. its scuffed rn
-                conn = pyodbc.connect(f"DRIVER={os.getenv('SQL_DRIVER', '{SQL Server}')};"
-                                      f"SERVER={os.getenv('SQL_SERVER')};"
-                                      f"DATABASE={os.getenv('SQL_DATABASE', 'datatables')};"
-                                      f"UID={os.getenv('SQL_USERNAME')};"
-                                      f"PWD={os.getenv('SQL_PASSWORD')}"
-                                      )
-            return conn
+            conn = sqlite3.connect(db_file)
+
         except Exception as e:
             log.error(e)
 

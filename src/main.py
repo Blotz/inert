@@ -8,7 +8,6 @@ from settings import (TOKEN, DEBUG)
 
 log = logging.getLogger(__name__)
 
-
 # Creating client
 sql = SqlClass()
 def get_prefix(client, message):

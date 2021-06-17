@@ -302,4 +302,8 @@ fabric.properties
 .idea/codestream.xml
 
 # C++ compiled file
-src/colorapp/.rendered.colorapp.cpp
+.rendered*
+
+# other shit
+.devcontainer/
+build.sh

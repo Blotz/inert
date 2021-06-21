@@ -33,8 +33,7 @@ Contributions, issues and feature requests are welcome!<br />Feel free to check 
 ## Linux
 Download required libraries and clone the github source code
 ```bash
-sudo apt-get install unixodbc-dev -y && \
-  pip3 install virtualenv && \
+pip3 install virtualenv && \
   git clone https://github.com/Blotz/inert.git
 ```
 Download venv and activate the venv

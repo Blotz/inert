@@ -1,24 +1,21 @@
 ### 1. Get Linux
 FROM debian
 
-### 2. Label
-LABEL maintainer="Blotz <https://github.com/blotz>"
-
-### 3. Get python3 via the package manager
+### 2. Get python3 via the package manager
 RUN apt-get update \
 && apt-get upgrade -y \
 && apt-get install -y python3 python3-pip 
 
-### . Set working directory
+### 3. Set working directory
 WORKDIR /code
 
-### . Copy requirements
+### 4. Copy requirements
 ADD requirements.txt /code/requirements.txt
 
-### . Install build deps and download modules
+### 5. Install build deps and download modules
 RUN pip3 install --user --no-cache-dir -r requirements.txt
 
-### . Copy code
+### 5. Copy code
 ADD . /code/
-### . Run
+### 6. Run
 CMD [ "python3", "-u", "./main.py" ]

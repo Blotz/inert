@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+    inert:
+        container_name: inert
+        image: inert:latest
+        volumes:
+            - "inert:/code/data"
+        environment:
+            - DEBUG=$DEBUG
+            - TOKEN=$TOKEN
+            - REDDIT_ID=$REDDIT_ID
+            - REDDIT_SECRET=$REDDIT_SECRET
+
+volumes:
+    inert:
+        name: inert

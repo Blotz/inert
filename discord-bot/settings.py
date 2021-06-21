@@ -23,7 +23,6 @@ REDDIT_SECRET: str = os.getenv("REDDIT_SECRET")
 DATABASE_TYPE: str = os.getenv("DATABASE_TYPE")
 
 # Debug Mode Setup
-__handlers = [logging.FileHandler('./data/logs/discord_bot.log'), logging.StreamHandler()]
 __format = "[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s"
 # if 'logs' not in os.listdir('data'):
 #     os.mkdir('data/logs')
@@ -35,7 +34,6 @@ if DEBUG is True:
         level=logging.DEBUG,
         format=__format,
         datefmt="%d/%b/%Y %H:%M:%S",
-        handlers=__handlers
     )
     # Set Logger Level
     logging.getLogger("discord").setLevel(logging.WARN)
@@ -49,7 +47,6 @@ else:
         level=logging.INFO,
         format=__format,
         datefmt="%d/%b/%Y %H:%M:%S",
-        handlers=__handlers
     )
     logging.getLogger("discord").setLevel(logging.ERROR)
     logging.getLogger("apscheduler.scheduler:Scheduler").setLevel(logging.ERROR)

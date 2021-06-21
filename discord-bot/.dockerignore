@@ -4,7 +4,7 @@ colorapp.cpython*
 __pycache__/
 
 # ignore readme
-readme.md
+*.md
 
 # ignore github
 .gitkeep

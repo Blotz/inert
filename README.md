@@ -29,6 +29,7 @@ https://github.com/Blotz/inert#setting-up-the-bot
 Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Blotz/inert/issues).
 
 ---
+# This is out of date
 # Setting up the bot
 ## Linux
 Download required libraries and clone the github source code

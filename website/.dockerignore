@@ -1,0 +1,7 @@
+# ignore compiled code
+colorapp.cpython*
+.rendered*
+__pycache__/
+
+# ignore readme
+*.md

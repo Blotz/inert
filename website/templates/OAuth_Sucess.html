@@ -1,0 +1,8 @@
+<script>
+if (window.opener) {
+  window.opener.postMessage({ code: "{{code}}" }, "http://192.168.1.100:5000/");
+  setTimeout(function() { window.close(); }, 500);
+} else {
+  window.location.replace("http://192.168.1.100:5000/login?code={{code}}")
+}
+</script>

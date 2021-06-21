@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+    inert-bot:
+        container_name: inert-bot
+        hostname: inert-bot
+        build:
+            context: ./discord-bot
+        image: blots/inert-bot
+        env_file: 
+            - .env
+    
+    inert-website:
+        container_name: inert-website
+        hostname: inert-website
+        build: 
+            context: ./website
+        image: blots/inert-website
+        env_file: 
+            - .env
+    
+    inert-redis:
+        container_name: inert-redis
+        image: redis
+        ports:
+            - 6379:6379
+        env_file: 
+            - .env

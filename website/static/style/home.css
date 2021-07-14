@@ -1,0 +1,18 @@
+.body {
+    text-align: center;
+}
+
+.info-box {
+    text-align: auto;
+    border: solid;
+    padding-left: 10%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    margin: 10%;
+    background-color: #424242;
+}
+
+.button {
+    position:relative;
+    padding:8px 20px;
+}

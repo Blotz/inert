@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import make_response
+from flask import session
 import requests
 import os
 
@@ -13,9 +14,14 @@ except ImportError:
     print("python-dotenv not loaded. Hope you set your environment variables.")
 
 app = Flask(__name__)
+# Load SECRET_KEY
+SECRET_KEY = os.getenv('SECRET_KEY')
+if not SECRET_KEY:
+   raise ValueError("No SECRET_KEY set for Flask application")
+else:
+   app.secret_key = SECRET_KEY
 
-
-
+app.config['SERVER_NAME'] = str(os.getenv("FLASK_SERVER_NAME", None))
 
 # HTTP error handling
 @app.errorhandler(404)
@@ -24,6 +30,7 @@ def not_found(error):
 
 @app.route('/')
 def main():
+   print(session['code'])
    return render_template("homepage.html")
 
 @app.route('/api')
@@ -54,11 +61,23 @@ def api():
    except requests.exceptions.HTTPError:
       return {'error':{'message':'Invalid Code'}}
 
+   session['code'] = info['access_token']
    # Generate Web response with cookies
    resp = make_response(render_template("OAuth_Sucess.html",code=code))
    resp.set_cookie('code', info['access_token'])
    return resp
 
 
+@app.route('/github', methods = ['POST'])
+def github():
+   print(request.get_json())
+   return {}
+
 if __name__ == '__main__':
-   app.run("0.0.0.0")
+   app.run(
+      host = str(os.getenv("FLASK_HOST", "localhost")),
+      port = int(os.getenv("FLASK_PORT", 5000)),
+      debug = bool(os.getenv("FLASK_DEBUG", False)),
+      load_dotenv = bool(os.getenv("FLASK_LOAD_ENV", True))
+   )
+   print(app.config)

@@ -1,5 +1,4 @@
 # ignore compiled code
-colorapp.cpython*
 .rendered*
 __pycache__/
 

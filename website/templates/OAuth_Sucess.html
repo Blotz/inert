@@ -1,8 +1,8 @@
 <script>
 if (window.opener) {
-  window.opener.postMessage({ code: "{{code}}" }, "http://192.168.1.100:5000/");
+  window.opener.postMessage({ code: "{{code}}" }, "https://temp-web.skunkwork.live/");
   setTimeout(function() { window.close(); }, 500);
 } else {
-  window.location.replace("http://192.168.1.100:5000/login?code={{code}}")
+  window.location.replace("https://temp-web.skunkwork.live/login?code={{code}}")
 }
 </script>

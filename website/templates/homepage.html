@@ -1,34 +1,24 @@
 {% extends "layout.html" %}
+
 {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style/home.css') }}">
 <!-- JS OAuth code -->
-<script type="text/javascript">
-    /*This code checks for cookies. probably */
-    function check_for_cookie() {
-        var cookieArr = document.cookie.split(";");
-        for (var i = 0; i < cookieArr.length; i++) {
-            var cookiePair = cookieArr[i].split("=");
-            if ('code' == cookiePair[0].trim()) {
-                window.location.href = "http://192.168.1.100:5000/dashboard";
-            }
-        }
-    };
-    /*This code runs when user loads the website. it should check for cookies and redirect to /dashboard */
-    /*Replace this in check_for_cookie(); */
-    window.onload = function startup() {
-        document.getElementById('token').innerHTML = document.cookie;
-    };
-    window.addEventListener("message", (event) => {
-        /*This code triggers on successful auth*/
-        check_for_cookie();
-    });
-    function login() {
-        window.open("https://discord.com/api/oauth2/authorize?client_id=853387310016102431&redirect_uri=http%3A%2F%2F192.168.1.100%3A5000%2Fapi&response_type=code&scope=identify%20guilds", "_blank", "width=500,height=777");
-    };
-</script>
+<script type="text/javascript" src="{{ url_for('static', filename='script/oauth.js') }}"></script>
 {% endblock %}
 
 {% block body %}
 <!--500px x 777px-->
 <div id="token"></div>
-<button onclick="login()">Login</button>
+<div class="body">
+    <h1>good old title</h1>
+    <h3>and a lil subtitle for effect</h3>
+    <div class="info-box">
+        <p>
+            words words words <br>
+            words words words <br>
+        </p>
+    </div>
+    <button onclick="login()" class="login">Login</button>
+    <button onclick="document.getElementById('token').innerHTML = document.cookie;" class="moreinfo">More info</button>
+</div>
 {% endblock %}

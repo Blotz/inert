@@ -14,8 +14,7 @@
     <meta name="keywords" content="HTML, CSS">
     <meta name="author" content="Blotz https://github.com/Blotz">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex" />
-    <!--I dont want bots to index this yet-->
+    <meta name="robots" content="noindex" /> <!--I dont want bots to index this yet-->
 
     <!--Favicon Stuff-->
     <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon/apple-touch-icon.png') }}">
@@ -23,12 +22,11 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
     <link rel="manifest" href="{{ url_for('static', filename='favicon/site.webmanifest') }}">
 
-
     <!--General CSS Stuff-->
     <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style/header.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style/footer.css') }}">
-    <!-- Jinja Template Block -->
+
     {% block head %}
     {% endblock %}
 
@@ -52,7 +50,6 @@
 
     </header>
 
-    <!-- Jinja Template Block -->
     {% block body %}
     {% endblock %}
 

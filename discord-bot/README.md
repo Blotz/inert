@@ -32,5 +32,5 @@ code is public lmfao. imma grab
 
 ## Clean UP
 ### remove old fw commands
-- [ ] count
-- [ ] beeify
+- [/] count
+- [/] beeify

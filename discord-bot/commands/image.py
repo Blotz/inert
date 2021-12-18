@@ -79,11 +79,7 @@ class ImageEditing(commands.Cog, name='image'):
         :param strength:
         :return:
         """
-        img = Image.frombytes(
-            'RGBA', img.size, colorapp.recolor(
-                img.tobytes(), height, width, color[0], color[1], color[2], strength
-                )
-            )
+        img = Image.frombytes('RGBA', img.size, recolor.recolor(img.tobytes(), height, width, color[0], color[1], color[2], strength))
 
         return img
 
@@ -134,8 +130,8 @@ class ImageEditing(commands.Cog, name='image'):
 
         async with ctx.typing():  # typing to show code is working
             # runs in parallel to other code to prevent input output blocking
-
-            Image.frombytes('RGBA', img.size, recolor.recolor(img.tobytes(), height, width, addition_colors[color][0], addition_colors[color][1], addition_colors[color][2], strength))
+            fn = partial(self.ProcessRecolor, img, height, width, addition_colors[color], strength)
+            img = await self.client.loop.run_in_executor(None, fn)
 
             # Send image to discord without saving to file
             img_bytes_arr = io.BytesIO()

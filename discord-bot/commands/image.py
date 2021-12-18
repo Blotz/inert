@@ -1,16 +1,14 @@
 import io
 import logging
-import random
 import re
 from functools import partial
-from os import listdir
 import aiohttp
 import discord
 from PIL import Image, ImageColor
 from discord.ext import commands
 
 import cppimport.import_hook
-from colorapp import colorapp
+from commands.Image import recolor
 
 log = logging.getLogger(__name__)
 
@@ -81,7 +79,11 @@ class ImageEditing(commands.Cog, name='image'):
         :param strength:
         :return:
         """
-        img = Image.frombytes('RGBA', img.size, colorapp.recolor(img.tobytes(), height, width, color[0], color[1], color[2], strength))
+        img = Image.frombytes(
+            'RGBA', img.size, colorapp.recolor(
+                img.tobytes(), height, width, color[0], color[1], color[2], strength
+                )
+            )
 
         return img
 
@@ -132,8 +134,8 @@ class ImageEditing(commands.Cog, name='image'):
 
         async with ctx.typing():  # typing to show code is working
             # runs in parallel to other code to prevent input output blocking
-            fn = partial(self.ProcessRecolor, img, height, width, addition_colors[color], strength)
-            img = await self.client.loop.run_in_executor(None, fn)
+
+            Image.frombytes('RGBA', img.size, recolor.recolor(img.tobytes(), height, width, addition_colors[color][0], addition_colors[color][1], addition_colors[color][2], strength))
 
             # Send image to discord without saving to file
             img_bytes_arr = io.BytesIO()
@@ -158,81 +160,6 @@ class ImageEditing(commands.Cog, name='image'):
             await ctx.send('`ERROR: invalid color`')
         else:
             await ctx.send('`ERROR: something went wrong`')
-
-    @staticmethod
-    def ProcessBee(img: Image, beecount: int, width: int, height: int):
-        """Adds bee pngs to an image
-        :param img:
-        :param beecount:
-        :param width:
-        :param height:
-        :return:
-        """
-        for n in range(beecount):
-            bee = random.choice(listdir('./data/images'))
-            beeimage = Image.open(f"./data/images/{bee}")
-            beeimage = beeimage.convert('RGBA')
-
-            scale = 0.20 + (random.random() - 0.5) * 0.2
-            ratio = beeimage.size[1] / beeimage.size[0]
-            beewidth = beeimage.size[0] * scale
-            beeheight = abs(round(ratio * beewidth))
-            beewidth = abs(round(beewidth))
-
-            beeimage = beeimage.resize((beewidth, beeheight))
-
-            rwidth = random.randint(0, abs(width - beeimage.size[0]))
-            rhight = random.randint(0, abs(height - beeimage.size[1]))
-
-            img.alpha_composite(beeimage, (rwidth, rhight))
-        return img
-
-    @commands.command(aliases=['bee'])
-    async def beeify(self, ctx, beecount: int = 10):
-        """Makes image bee-ier. searches up to 25 messages into the history for an image
-        :param ctx:
-        :param beecount: The number of bees that are added to an image. optional
-        :return: a new and improved image with bees
-        """
-        if beecount > 1000:
-            raise discord.errors.DiscordException
-
-        bot_msg = await ctx.send('`Editing images`')
-
-        img, width, height = await self.FindImage(ctx)
-        if img is None:
-            return await bot_msg.edit(content='`No image found`')
-
-        await bot_msg.edit(content='`Image found!`')
-
-        async with ctx.typing():  # typing to show code is working
-            # runs in parallel to other code to prevent input output blocking
-            fn = partial(self.ProcessBee, img, beecount, width, height)
-            img = await self.client.loop.run_in_executor(None, fn)
-
-            # Send image to discord without saving to file
-            img_bytes_arr = io.BytesIO()
-            img.save(img_bytes_arr, format='PNG')
-            img_bytes_arr.seek(0)
-            f = discord.File(img_bytes_arr, 'bee.png')
-
-        await ctx.send(f'`bee`', file=f)
-        await bot_msg.delete()
-
-    @beeify.error
-    async def _beeify(self, ctx: object, error: object):
-        """
-        Error output for beeify
-        :param ctx:
-        :param error:
-        :return: Error message
-        """
-        if isinstance(error, commands.errors.BadArgument):
-            await ctx.send('`ERROR: invalid args <number of bees> <optional url>`')
-        elif isinstance(error, discord.errors.DiscordException):
-            await ctx.send('`ERROR: too many bees`')
-        else:
-            await ctx.send(f'`ERROR: {error}`')
 
     @commands.command(aliases=['avatar'])
     async def pfp(self, ctx, *, member: discord.Member = None):

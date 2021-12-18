@@ -1,4 +1,3 @@
-from settings import (DATABASE_TYPE)
 import logging
 log = logging.getLogger(__name__)
 
@@ -8,7 +7,7 @@ import sqlite3
 
 class SqlBaseCommands:
     def __init__(self, tables: list):
-        self.database = 'data/datatables.db'
+        self.database = 'datatables.db'
         # create a database connection
         conn = self.create_connection(self.database)
         # create tables

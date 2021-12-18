@@ -18,9 +18,6 @@ except ImportError:
 
 DEBUG: bool = bool(os.getenv("DEBUG", False))
 TOKEN: str = os.getenv("TOKEN")
-REDDIT_ID: str = os.getenv("REDDIT_ID")
-REDDIT_SECRET: str = os.getenv("REDDIT_SECRET")
-DATABASE_TYPE: str = os.getenv("DATABASE_TYPE")
 
 # Debug Mode Setup
 __format = "[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s"
@@ -58,5 +55,3 @@ else:
 if TOKEN is None:
     log.error("Discord API token not set")
     exit()
-elif REDDIT_ID or REDDIT_SECRET is None:
-    log.error("REDDIT ID or SECRET not set")

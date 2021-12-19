@@ -23,14 +23,13 @@ if DEBUG is True:
     log.info("=== DEBUG MODE ENABLED ===")
 
 # loads all cogs
-for filename in os.listdir('./commands'):
-    if filename.endswith('.py'):
-        try:
-            logging.debug(f'loading {filename}...')
-            client.load_extension(f'commands.{filename[:-3]}')
-        except Exception as e:
-            log.error(type(e))
-            log.error(e)
+for folders in os.listdir('./commands'):
+    try:
+        logging.debug(f'loading {folders}...')
+        client.load_extension(f'commands.{folders}')
+    except Exception as e:
+        log.error(type(e))
+        log.error(e)
 
 
 # prints when bot has started up

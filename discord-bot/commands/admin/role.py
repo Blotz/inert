@@ -8,7 +8,7 @@ from sql.role import SqlClass
 log = logging.getLogger(__name__)
 
 
-class Role(commands.Cog, name='role'):
+class Role(commands.Cog):
     """
     Persistent roles
     """
@@ -46,25 +46,6 @@ class Role(commands.Cog, name='role'):
 
         self.sql.remove_roles(guild_id, lst)
 
-    @commands.command(aliases=['clearroles', 'purgeroles'])
-    @commands.has_permissions(administrator=True)
-    async def removeroles(self, ctx, member: discord.Member = None):
-        """Removes a users roles
-        :param ctx:
-        :param member: The users whos roles are getting removed
-        :return: Removes the users role from the database
-        """
-        guild_id = ctx.guild.id
-        if member is None:
-            username = ctx.author.name
-            user_id = ctx.author.id
-        else:
-            username = member.name
-            user_id = member.id
-
-        message = await ctx.send(f"`purging {username}'s roles from datatables...`")
-        self.sql.remove_user_roles(user_id, guild_id)
-        await message.edit(content=f"`purged {username}'s roles from datatables!`")
 
     @commands.command()
     @commands.has_permissions(administrator=True)
@@ -133,12 +114,3 @@ class Role(commands.Cog, name='role'):
             if user_role.name != "@everyone":
                 lst.append(user_role.id)
         self.sql.add_user_roles(user_id, lst, user_guild_id)
-
-
-def setup(client):
-    log.debug(f'loading {__name__}')
-    client.add_cog(Role(client))
-
-
-def teardown(client):
-    log.debug(f'{__name__} unloaded')

@@ -34,3 +34,4 @@ code is public lmfao. imma grab
 ### remove old fw commands
 - [/] count
 - [/] beeify
+### refactor progect to store code in modules

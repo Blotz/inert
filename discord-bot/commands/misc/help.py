@@ -1,9 +1,7 @@
 from discord.ext import commands
-import logging
-log = logging.getLogger(__name__)
 
 
-class Help(commands.Cog, name='Help'):
+class Help(commands.Cog):
     """
     Help command
     """
@@ -89,12 +87,3 @@ class Help(commands.Cog, name='Help'):
             await ctx.send(help_str)
         else:
             await ctx.send("```no category found```")
-
-
-def setup(client):
-    log.debug(f'loading {__name__}')
-    client.add_cog(Help(client))
-
-
-def teardown(client):
-    log.debug(f'{__name__} unloaded')

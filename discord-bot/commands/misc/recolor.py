@@ -8,16 +8,11 @@ from PIL import Image, ImageColor
 from discord.ext import commands
 
 import cppimport.import_hook
-from commands.Image import recolor
+from .cpp_functions import recolor
 
 log = logging.getLogger(__name__)
 
-
-class ImageEditing(commands.Cog, name='image'):
-    """
-    Image editing
-    """
-
+class Recolor(commands.Cog):
     def __init__(self, client):
         self.client = client
 
@@ -156,32 +151,3 @@ class ImageEditing(commands.Cog, name='image'):
             await ctx.send('`ERROR: invalid color`')
         else:
             await ctx.send('`ERROR: something went wrong`')
-
-    @commands.command(aliases=['avatar'])
-    async def pfp(self, ctx, *, member: discord.Member = None):
-        """Gets your pfp or pfp of another
-        :param ctx:
-        :param member: optional. the user who's pfp you want to see
-        :return: embed with pfp
-        """
-        url = ctx.author.avatar_url if member is None else member.avatar_url
-        embed = discord.Embed(color=discord.Color.gold())
-        embed.set_image(url=url)
-
-        await ctx.send(embed=embed)
-
-    @pfp.error
-    async def _pfp(self, ctx, error):
-        if isinstance(error, commands.errors.MemberNotFound):
-            await ctx.send('`ERROR: member not found`')
-        else:
-            log.info(error)
-
-
-def setup(client):
-    log.debug(f'loading {__name__}')
-    client.add_cog(ImageEditing(client))
-
-
-def teardown(client):
-    log.debug(f'{__name__} unloaded')

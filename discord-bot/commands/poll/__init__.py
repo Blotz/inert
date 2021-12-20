@@ -24,4 +24,3 @@ def setup(client):
 
 def teardown(client):
     log.debug(f'{__name__} unloaded')
-
